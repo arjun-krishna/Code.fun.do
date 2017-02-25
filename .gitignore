@@ -1,0 +1,5 @@
+server/node_modules
+app/bower_components/
+app/node_modules/
+web/bower_components/
+web/node_modules/
