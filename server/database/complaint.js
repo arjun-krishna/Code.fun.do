@@ -15,6 +15,7 @@ var ComplaintSchema = mongoose.Schema({
    	city : {type :String , required : true},
    	state : {type :String , required : true},
    	description : {type :String , required : true},
+    department : {type:[String], default: []},
    	tags : [String],
    	img: { data: Buffer, contentType: String },
    	comments : [CommentSchema]

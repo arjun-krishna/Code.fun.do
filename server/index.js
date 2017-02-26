@@ -3,6 +3,7 @@ var bodyParser = require('body-parser')
 var app = express()
 
 var model  = require('./database')
+// var classifier = require('./ml.js')
 
 // connect to the Database 
 var mongoose = require('mongoose');
@@ -97,7 +98,7 @@ app.post('/admin/login',function (req, res) {
 						res.sendStatus(406); // user not present
 					} else {
 						if (data[0].password == req.body.password) {
-							res.sendStatus(200);
+							res.json(data[0]);
 						} else {
 							res.sendStatus(401); // incorrect password!
 						}
@@ -237,7 +238,14 @@ app.post('/complaint/:id/close/', function (req, res) {
 
 app.get('/newsfeed/:name', function (req, res) {
 	try {
-		 model["Complaint"].find({}, function(err, data) {
+		 query = {}
+		 if (req.query.ward) {
+		   query.ward = req.query.ward
+		 } 
+		 if (req.query.department) {
+		 	query.department = req.query.department
+		 }
+		 model["Complaint"].find(query, function(err, data) {
 				if (err) {
 					console.log(err);
 					res.sendStatus(403); 
