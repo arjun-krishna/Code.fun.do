@@ -2,7 +2,11 @@ var mongoose = require('mongoose');
 var CommentSchema = require('./comments.js')
 
 var ComplaintSchema = mongoose.Schema({
+    title : {type:String, required :true},
     filled_by : {type :String , required : true},
+    timeline : { type: Number, default: 0 },
+    status : {type : String, default : "Open"},
+    assignee : String,
     timestamp : {type :Date , default: Date.now},
     upvotes : { type: Number, default: 0 },
     location : { "lat" : 	Number, "long": Number},

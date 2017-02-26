@@ -71,7 +71,7 @@ app.post('/citizen/login',function (req, res) {
 						res.sendStatus(406); // user not present
 					} else {
 						if (data[0].password == req.body.password) {
-							res.sendStatus(200);
+							res.json(data[0]);
 						} else {
 							res.sendStatus(401); // incorrect password!
 						}
@@ -148,6 +148,78 @@ app.get('/complaint/:id/upvote/', function (req, res) {
 				} else {
 					console.log(data);
 					data.upvotes+=1
+					data.save(function (err, data) {
+						if (err) {
+							console.error(err);
+							res.sendStatus(406);
+						} else {
+							res.sendStatus(200); 
+						}
+					})
+				}
+		 });
+	} catch(e) {
+		res.sendStatus(500);
+	}
+})
+
+app.post('/complaint/:id/addassignee/', function (req, res) {
+	try {
+		 model["Complaint"].findById(req.params.id, function(err, data) {
+				if (err) {
+					console.log(err);
+					res.sendStatus(403); 
+				} else {
+					console.log(data);
+					data.assignee = req.body.name;
+					data.save(function (err, data) {
+						if (err) {
+							console.error(err);
+							res.sendStatus(406);
+						} else {
+							res.sendStatus(200); 
+						}
+					})
+				}
+		 });
+	} catch(e) {
+		res.sendStatus(500);
+	}
+})
+
+app.post('/complaint/:id/open/', function (req, res) {
+	try {
+		 model["Complaint"].findById(req.params.id, function(err, data) {
+				if (err) {
+					console.log(err);
+					res.sendStatus(403); 
+				} else {
+					console.log(data);
+					data.status = 'Open';
+					data.save(function (err, data) {
+						if (err) {
+							console.error(err);
+							res.sendStatus(406);
+						} else {
+							res.sendStatus(200); 
+						}
+					})
+				}
+		 });
+	} catch(e) {
+		res.sendStatus(500);
+	}
+})
+
+app.post('/complaint/:id/close/', function (req, res) {
+	try {
+		 model["Complaint"].findById(req.params.id, function(err, data) {
+				if (err) {
+					console.log(err);
+					res.sendStatus(403); 
+				} else {
+					console.log(data);
+					data.status = 'Closed';
 					data.save(function (err, data) {
 						if (err) {
 							console.error(err);
